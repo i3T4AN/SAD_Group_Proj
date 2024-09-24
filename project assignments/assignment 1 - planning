@@ -115,6 +115,7 @@ Responsibilities:
 - Conduct regular security audits and tests on the program.   
 
  
+___________________________________________________________________________________________________________________________________________________________________________________________________________
 
 Sponsor:   
 
@@ -183,13 +184,17 @@ Level of Effort (LOE):
 - DevOps Engineer (Ethan G): Moderate effort to automate deployment processes and maintain the development environment, ensuring continuous integration and delivery.   
 
 - Project Manager (Andrew): High effort to ensure the project stays on schedule, allocate resources, manage team communications, and mitigate risks. 
+___________________________________________________________________________________________________________________________________________________________________________________________________________
 
 Technical feasibility: The project is feasible with the team's skills, using available technologies like API integrations for stock data and common development tools. Existing infrastructure supports development, testing, and deployment. 
 
  
-
 Economic feasibility: Costs are minimal, with primary expenses being time and the use of free or academic-licensed tools. The return is primarily educational, providing learning value, and there is low financial risk. 
 
- 
 
 Organizational feasibility: The project fits academic goals, with clear role assignments and strong team coordination led by the project manager, ensuring smooth execution. 
+___________________________________________________________________________________________________________________________________________________________________________________________________________
+Project Plan: 
+Approach
+Tasks 
+Timeline
