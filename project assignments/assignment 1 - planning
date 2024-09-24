@@ -137,17 +137,17 @@ Requirements:
 
 - UI/UX Designer (Ethan B): Design an intuitive, user-friendly interface. (HTML website with a way to connect to the other Ethan's API) 
 
-- Software Developer (Ethan G): Build system logic and integrate stock data APIs.   
+- Software Developer (Ethan G): Build system logic and integrate stock data APIs. (python api and code written, jupiter notebooks for "documentation")
 
-- Database Administrator (Carlos): Create and manage a secure stock data database.   
+- Database Administrator (Carlos): Create and manage a secure stock data database.  (postgresSQL) 
 
-- Security Analyst (Carlos): Ensure system security and data protection.   
+- Security Analyst (Carlos): Ensure system security and data protection. (using testing software to debug code)
 
-- Technical Writer (Andrew): Document system functionality and create user manuals.   
+- Technical Writer (Andrew): Document system functionality and create user manuals.   (communication of whats happening, word for documentation)
 
-- DevOps Engineer (Ethan G): Set up and maintain development and deployment environments.   
+- DevOps Engineer (Ethan G): Set up and maintain development and deployment environments.   (Digital ocean, AWS, github)
 
-- Project Manager (Andrew): Manage project timeline, resources, and team coordination. 
+- Project Manager (Andrew): Manage project timeline, resources, and team coordination. (groupchat communication and cordination, sticking to the timeline)
 
  
 
@@ -194,7 +194,22 @@ Economic feasibility: Costs are minimal, with primary expenses being time and th
 
 Organizational feasibility: The project fits academic goals, with clear role assignments and strong team coordination led by the project manager, ensuring smooth execution. 
 ___________________________________________________________________________________________________________________________________________________________________________________________________________
-Project Plan: 
-Approach
-Tasks 
+Project Plan:
+Approach:
+ SCRUM
+
 Timeline
+  1. in the first 2 weeks have the fuctional project done & finish research and some documentation. Need an inital release for testing
+  2. in the next 2 weeks refine the code, make the UI better, and donny finishes documentation. 
+  3. in the next 2 weeks do the same thing to refine the code.
+  4. in the last 2 weeks refine the idea to be ready for full implimentation.
+ 
+Tasks 
+
+Ethan B: Make a UI, document work for the website, research what the program specifically needs to do
+
+Donny: manage the project, effectivly communicate, and document code and designs
+
+Ethan G: Write the code, Manage the dev env, and impliment the SQL database and UI into the code using cask.
+
+Carlos: Create database for the finance historical data from yahoo finance, save user data of whos researching
