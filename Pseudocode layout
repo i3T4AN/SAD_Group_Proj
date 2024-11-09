@@ -1,0 +1,24 @@
+Set up Web API for Input:
+Create a Cask route to accept input (stock symbol) from the user.
+Example route: /get_stock_data
+Connect to Yahoo Finance API:
+Fetch historical stock data for the given symbol.
+Input: Stock symbol (user-provided).
+Output: Historical data including date, opening price, closing price, and volume.
+Store Data in SQL Database:
+Connect to a SQL database.
+Create a table for stock data if it doesn’t exist.
+Store the fetched stock data (symbol, date, open price, close price, volume).
+Analyze Historical Data:
+Query stored stock data for the symbol.
+Perform calculations to assess investment worthiness.
+Investment Evaluation Criteria:
+Use the data to calculate key metrics (e.g., moving averages, volatility, etc.).
+Based on these metrics, determine if the stock is worth investing in.
+Return Result to User:
+Display or return the analysis result via the Cask route.
+Example: /evaluate_stock
+
+Simple Moving Average (SMA): SMA = (P1 + P2 + ... + Pn) / n
+
+Volatility (Standard Deviation of Returns): Volatility = sqrt((Σ(Ri - μ)²) / n) R = (Pt - Pt-1) / Pt-1
