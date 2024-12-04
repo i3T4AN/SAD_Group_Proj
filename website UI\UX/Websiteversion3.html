@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Stock Analysis</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            background-color: #f4f4f9;
+        }
+        header, footer {
+            padding: 15px;
+            background-color: #333;
+            color: #fff;
+        }
+        header h1, footer p {
+            margin: 0;
+        }
+        #chartContainer {
+            width: 80%;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        .search-bar {
+            margin: 20px;
+        }
+        .recommendations {
+            margin: 20px;
+            padding: 20px;
+            background: #fff;
+            width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        button, input[type="text"] {
+            padding: 10px;
+            margin: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        input[type="text"] {
+            width: 250px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #loginModal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            z-index: 1000;
+        }
+        #modalOverlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+        .loading {
+            display: none;
+            font-size: 14px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Advanced Stock Analysis Platform</h1>
+        <button onclick="openLoginModal()">Login</button>
+    </header>
+
+    <div class="search-bar">
+        <input type="text" id="stockSearch" placeholder="Search for a stock...">
+        <button onclick="searchStock()">Search</button>
+        <span class="loading" id="loadingText">Loading...</span>
+    </div>
+
+    <div id="chartContainer">
+        <canvas id="stockChart"></canvas>
+    </div>
+
+    <div class="recommendations">
+        <h2>Recommendations</h2>
+        <p id="recommendationsText">No data available yet.</p>
+    </div>
+
+    <footer>
+        <p>Stock Analysis Platform © 2024</p>
+    </footer>
+
+    <div id="modalOverlay" onclick="closeLoginModal()"></div>
+    <div id="loginModal">
+        <h2>Login</h2>
+        <input type="text" placeholder="Username"><br>
+        <input type="password" placeholder="Password"><br>
+        <button onclick="alert('Login successful (placeholder)')">Login</button>
+        <button onclick="closeLoginModal()">Cancel</button>
+    </div>
+
+    <script>
+        let stockChart;
+
+        function openLoginModal() {
+            document.getElementById("loginModal").style.display = "block";
+            document.getElementById("modalOverlay").style.display = "block";
+        }
+
+        function closeLoginModal() {
+            document.getElementById("loginModal").style.display = "none";
+            document.getElementById("modalOverlay").style.display = "none";
+        }
+
+        function searchStock() {
+            const stock = document.getElementById("stockSearch").value;
+            const loadingText = document.getElementById("loadingText");
+
+            if (!stock) {
+                alert("Please enter a stock name.");
+                return;
+            }
+
+            loadingText.style.display = "inline";
+            setTimeout(() => {
+                const fakeData = generateFakeStockData(stock);
+                updateChart(fakeData);
+                updateRecommendations(fakeData);
+                loadingText.style.display = "none";
+            }, 1500);
+        }
+
+        function updateChart(stockData) {
+            const ctx = document.getElementById("stockChart").getContext("2d");
+
+            if (stockChart) {
+                stockChart.destroy();
+            }
+
+            stockChart = new Chart(ctx, {
+                type: "line",
+                data: {
+                    labels: stockData.dates,
+                    datasets: [{
+                        label: stockData.name + " Price",
+                        data: stockData.prices,
+                        borderColor: "rgba(75, 192, 192, 1)",
+                        borderWidth: 2,
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: "Date"
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: "Price (USD)"
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateRecommendations(data) {
+            const recommendationsText = document.getElementById("recommendationsText");
+            recommendationsText.innerText = `Based on the latest analysis of ${data.name}, we recommend: ${data.recommendation}.`;
+        }
+
+        function generateFakeStockData(stockName) {
+            const dates = [];
+            const prices = [];
+            const currentDate = new Date();
+            for (let i = 0; i < 7; i++) {
+                const date = new Date(currentDate);
+                date.setDate(currentDate.getDate() - i);
+                dates.unshift(date.toISOString().split("T")[0]);
+                prices.unshift((Math.random() * 100 + 50).toFixed(2));
+            }
+
+            return {
+                name: stockName,
+                dates: dates,
+                prices: prices,
+                recommendation: prices[6] > prices[0] ? "Buy" : "Hold"
+            };
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const initialData = generateFakeStockData("Example Stock");
+            updateChart(initialData);
+            updateRecommendations(initialData);
+        });
+    </script>
+</body>
+</html>
