@@ -1,2 +1,0 @@
-Jira: https://tophatservices.atlassian.net/jira/software/projects/SDT/boards/2/backlog
-Figma: https://www.figma.com/files/team/1444083935048535098/project/307848393/Team-project?fuid=1332763726962314134
