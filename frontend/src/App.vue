@@ -2,10 +2,10 @@
   <div :data-theme="theme" class="full-screen offset-top">
     <header>
       <button class="login-button" @click="openLoginModal">Login</button>
-      <h1>Pro Stock Analysis Platform</h1>
+      <h2>Stock Stalker</h2>
     </header>
 
-    <button class="theme-toggle" @click="toggleTheme">Switch Theme</button>
+    <button class="theme-toggle" @click="toggleTheme">Theme</button>
 
     <div class="container full-screen reduced-size">
       <div class="search-wrapper">
@@ -13,9 +13,9 @@
           <input
             type="text"
             v-model="stockSymbol"
-            placeholder="Search for a stock symbol (e.g., AAPL, TSLA)..."
+            placeholder="Search for a stock symbol"
           />
-          <button @click="addStock">Add Stock</button>
+          <button @click="addStock">Stalk the Stock</button>
         </div>
       </div>
 
@@ -54,7 +54,7 @@
     </div>
 
     <footer>
-      <p>Stock Analysis Platform © 2024</p>
+      <p>Stock Stalker © 2025</p>
     </footer>
   </div>
 </template>
