@@ -1,11 +1,11 @@
 <template>
   <div :data-theme="theme" class="full-screen offset-top">
     <header>
-      <button class="login-button theme-button" @click="openLoginModal">Login</button>
+      <button class="login-button" @click="openLoginModal">Login</button>
       <h1>Pro Stock Analysis Platform</h1>
     </header>
 
-    <button class="theme-toggle theme-button" @click="toggleTheme">Switch Theme</button>
+    <button class="theme-toggle" @click="toggleTheme">Switch Theme</button>
 
     <div class="container full-screen reduced-size">
       <div class="search-wrapper">
@@ -15,7 +15,7 @@
             v-model="stockSymbol"
             placeholder="Search for a stock symbol (e.g., AAPL, TSLA)..."
           />
-          <button class="theme-button" @click="addStock">Add Stock</button>
+          <button @click="addStock">Add Stock</button>
         </div>
       </div>
 
@@ -64,9 +64,19 @@ import { ref, onMounted, watch, nextTick } from 'vue';
 import Chart from 'chart.js/auto';
 import { faker } from '@faker-js/faker';
 
-const themes = ['light', 'dark', 'high-contrast', 'blue', 'green', 'warm'];
+const themes = {
+  light: { bg: '#ffffff', text: '#000000' },
+  dark: { bg: '#1e1e1e', text: '#f4f4f4' },
+  'high-contrast': { bg: '#000000', text: '#ffff00' },
+  blue: { bg: '#e3f2fd', text: '#0d47a1' },
+  green: { bg: '#e8f5e9', text: '#1b5e20' },
+  warm: { bg: '#fff3e0', text: '#6d4c41' }
+};
+
+const themeKeys = Object.keys(themes);
 const themeIndex = ref(0);
-const theme = ref(themes[themeIndex.value]);
+const theme = ref(themeKeys[themeIndex.value]);
+
 const stockColors = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'];
 const stockSymbol = ref('');
 const stockDataList = ref([]);
@@ -74,25 +84,22 @@ const chartCanvas = ref(null);
 let stockChart = null;
 
 const toggleTheme = async () => {
-  themeIndex.value = (themeIndex.value + 1) % themes.length;
-  theme.value = themes[themeIndex.value];
-  document.querySelector('html').setAttribute('data-theme', theme.value);
-  await nextTick();
+  themeIndex.value = (themeIndex.value + 1) % themeKeys.length;
+  theme.value = themeKeys[themeIndex.value];
   applyThemeStyles();
 };
 
 const applyThemeStyles = () => {
-  const root = document.documentElement;
-  root.style.setProperty('--bg-color', getComputedStyle(root).getPropertyValue('--bg-color'));
-  root.style.setProperty('--text-color', getComputedStyle(root).getPropertyValue('--text-color'));
-
-  document.querySelectorAll(".theme-button").forEach(button => {
-    button.style.backgroundColor = `var(--button-bg)`;
-    button.style.color = `var(--text-color)`;
-  });
-  document.body.style.backgroundColor = `var(--bg-color)`;
-  document.body.style.color = `var(--text-color)`;
+  const selectedTheme = themes[theme.value];
+  document.documentElement.style.setProperty('--bg-color', selectedTheme.bg);
+  document.documentElement.style.setProperty('--text-color', selectedTheme.text);
+  document.body.style.backgroundColor = selectedTheme.bg;
+  document.body.style.color = selectedTheme.text;
   updateChart();
+};
+
+const openLoginModal = () => {
+  alert("Login functionality is not implemented yet.");
 };
 
 const generateStockHistory = () => {
@@ -113,7 +120,6 @@ const addStock = async () => {
   });
   stockSymbol.value = '';
   updateChart();
-  applyThemeStyles();
 };
 
 const updateChart = () => {
@@ -134,11 +140,11 @@ const updateChart = () => {
     },
     options: {
       plugins: {
-        legend: { labels: { color: `var(--text-color)` } }
+        legend: { labels: { color: getComputedStyle(document.documentElement).getPropertyValue('--text-color') } }
       },
       scales: {
-        x: { type: 'category', ticks: { color: `var(--text-color)` } },
-        y: { ticks: { color: `var(--text-color)` } }
+        x: { type: 'category', ticks: { color: getComputedStyle(document.documentElement).getPropertyValue('--text-color') } },
+        y: { ticks: { color: getComputedStyle(document.documentElement).getPropertyValue('--text-color') } }
       }
     }
   });
