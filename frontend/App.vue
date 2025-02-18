@@ -1,21 +1,35 @@
 <template>
   <div :data-theme="theme" class="full-screen offset-top">
-    <header>
-      <button class="login-button" @click="openLoginModal">Login</button>
-      <h2>Stock Stalker</h2>
+    <header style="display: flex; flex-direction: column; align-items: center; padding: 10px; gap: 10px;">
+      <div style="display: flex; gap: 10px; align-items: center; justify-content: flex-start;">
+        <button class="login-button" @click="openLoginModal">Login</button>
+        
+      <button class="theme-toggle" @click="toggleTheme">Switch Theme</button>
+      </div>
+      <h1 style="text-align: center; width: 100%; margin-top: 10px;">STOCK STALKER</h1>
     </header>
 
-    <button class="theme-toggle" @click="toggleTheme">Theme</button>
+    
 
     <div class="container full-screen reduced-size">
-      <div class="search-wrapper">
+      <div class="search-wrapper" style="display: flex; flex-direction: column; align-items: center; gap: 15px;">
+        <div class="input-box" style="display: flex; flex-direction: column; align-items: center; margin-top: 10px;">
+          <input type="text" v-model="inputStockSymbol" placeholder="Enter stock symbol" />
+          
+          <input type="number" v-model="priceBought" placeholder="Enter price bought" />
+          
+          <input type="number" v-model="sellingPrice" placeholder="Enter selling price" />
+          
+          <input type="number" v-model="shareAmount" placeholder="Enter shares amount" />
+        <button @click="sendDataToBackend">Send</button>
+        </div>
         <div class="search-bar centered">
           <input
             type="text"
             v-model="stockSymbol"
-            placeholder="Search for a stock symbol"
+            placeholder="Search for a stock symbol (e.g., AAPL, TSLA)..."
           />
-          <button @click="addStock">Stalk the Stock</button>
+          <button @click="addStock">Add Stock</button>
         </div>
       </div>
 
@@ -25,10 +39,10 @@
           <table>
             <thead>
               <tr>
-                <th>Symbol</th>
-                <th>Price</th>
-                <th>Change (%)</th>
-                <th>Recommendation</th>
+                <th :style="{ color: themes[theme].text }">Symbol</th>
+                <th :style="{ color: themes[theme].text }">Price</th>
+                <th :style="{ color: themes[theme].text }">Change (%)</th>
+                <th :style="{ color: themes[theme].text }">Recommendation</th>
               </tr>
             </thead>
             <tbody>
@@ -54,7 +68,7 @@
     </div>
 
     <footer>
-      <p>Stock Stalker © 2025</p>
+      <p>Stock Analysis Platform © 2024</p>
     </footer>
   </div>
 </template>
@@ -74,8 +88,8 @@ const themes = {
 };
 
 const themeKeys = Object.keys(themes);
-const themeIndex = ref(0);
-const theme = ref(themeKeys[themeIndex.value]);
+const themeIndex = ref(2);
+const theme = ref('high-contrast');
 
 const stockColors = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'];
 const stockSymbol = ref('');
@@ -111,13 +125,23 @@ const generateStockHistory = () => {
 
 const addStock = async () => {
   if (!stockSymbol.value) return;
-  stockDataList.value.push({
-    symbol: stockSymbol.value.toUpperCase(),
-    price: parseFloat(faker.finance.amount(50, 200, 2)),
-    change: parseFloat(faker.finance.amount(-5, 5, 2)),
-    recommendation: Math.random() > 0.5 ? 'Buy' : 'Sell',
-    history: generateStockHistory()
-  });
+
+  try {
+    // Simulating a fake backend call
+    const response = await fetch(`https://fake-backend.com/api/stock?symbol=${stockSymbol.value.toUpperCase()}`);
+    const stockData = await response.json();
+
+    stockDataList.value.push({
+      symbol: stockData.symbol,
+      price: stockData.price,
+      change: stockData.change,
+      recommendation: stockData.recommendation,
+      history: stockData.history
+    });
+  } catch (error) {
+    console.error('Error fetching stock data:', error);
+  }
+
   stockSymbol.value = '';
   updateChart();
 };
@@ -159,6 +183,17 @@ watch([stockDataList, theme], () => {
   updateChart();
   applyThemeStyles();
 }, { deep: true });
+const sendDataToBackend = () => {
+  const requestData = {
+    stockSymbol: inputStockSymbol.value,
+    priceBought: priceBought.value,
+    sellingPrice: sellingPrice.value,
+    shareAmount: shareAmount.value
+  };
+  console.log('Sending data to fake backend:', requestData);
+  alert('Your request has been received. A Discord bot will notify you when the desired selling price is reached.');
+};
+
 </script>
 
 <style>
