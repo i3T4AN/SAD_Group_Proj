@@ -15,6 +15,7 @@
       <div class="search-wrapper" style="display: flex; flex-direction: column; align-items: center; gap: 15px;">
         <div class="input-box" style="display: flex; flex-direction: column; align-items: center; margin-top: 10px;">
           <input type="text" v-model="inputStockSymbol" placeholder="Enter stock symbol" />
+          <input type="text" v-model="discordUsername" placeholder="Enter Discord username" />
           
           <input type="number" v-model="priceBought" placeholder="Enter price bought" />
           
@@ -67,7 +68,7 @@
       </div>
     </div>
 
-    <footer>
+    <footer style="text-align: center;">
       <p>Stock Analysis Platform © 2024</p>
     </footer>
   </div>
@@ -185,6 +186,7 @@ watch([stockDataList, theme], () => {
 }, { deep: true });
 const sendDataToBackend = () => {
   const requestData = {
+    discordUsername: discordUsername.value,
     stockSymbol: inputStockSymbol.value,
     priceBought: priceBought.value,
     sellingPrice: sellingPrice.value,
