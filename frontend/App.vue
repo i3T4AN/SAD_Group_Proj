@@ -69,7 +69,7 @@
     </div>
 
     <footer style="text-align: center;">
-      <p>Stock Analysis Platform © 2024</p>
+      <p>STOCK STALKER © 2025</p>
     </footer>
   </div>
 </template>
